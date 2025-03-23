@@ -31,7 +31,7 @@ jobs:
           --build-arg ARG1=${{ secrets.APPLICATION_INSIGHTS_CONNECTION_STRING }} \
           --build-arg ARG2=${{ secrets.AZURE_STORAGE_CONNECTION_STRING }} \
           -t ${{ env.AZURE_CONTAINER_REGISTRY }}/${{ env.DOCKER_IMAGE_NAME }}:${{ github.sha }} \
-          .
+          -f Dockerfile .
 
     - name: Push Docker image to Azure Container Registry
       run: |
