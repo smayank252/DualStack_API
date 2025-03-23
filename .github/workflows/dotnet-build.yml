@@ -26,13 +26,11 @@ jobs:
 
     - name: Build Docker image with build arguments
       run: |
-          cd backend && ls -al
+          cd backend
           docker build \
-            --build-arg ARG1=${{ secrets.APPLICATION_INSIGHTS_CONNECTION_STRING }} \
-            --build-arg ARG2=${{ secrets.AZURE_STORAGE_CONNECTION_STRING }} \
-            -t ${{ env.AZURE_CONTAINER_REGISTRY }}/${{ env.DOCKER_IMAGE_NAME }}:${{ github.sha }} \
-            -f Dockerfile \
-            .
+            --build-arg APPLICATION_INSIGHTS_CONNECTION_STRING=${{ secrets.APPLICATION_INSIGHTS_CONNECTION_STRING }} \
+            --build-arg AZURE_STORAGE_CONNECTION_STRING=${{ secrets.AZURE_STORAGE_CONNECTION_STRING }} \
+            -t testing2sfa.azurecr.io/backend:latest .
     - name: Push Docker image to Azure Container Registry
       run: |
         docker push ${{ env.AZURE_CONTAINER_REGISTRY }}/${{ env.DOCKER_IMAGE_NAME }}:${{ github.sha }}
