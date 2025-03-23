@@ -24,6 +24,15 @@ jobs:
         username: ${{ secrets.USERNAME }}
         password: ${{ secrets.PASSWORD }}
 
+    - name: Debug Docker CLI
+      run: |
+          docker version
+          docker info
+          echo "DOCKER_CLI_EXPERIMENTAL=$DOCKER_CLI_EXPERIMENTAL"
+
+    - name: Disable BuildX (if needed)
+      run: export DOCKER_CLI_EXPERIMENTAL=disabled
+
     - name: Build Docker image with build arguments
       run: |
           cd backend
