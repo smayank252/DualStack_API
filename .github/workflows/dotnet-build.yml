@@ -37,7 +37,7 @@ jobs:
 
     - name: Build Docker image with build arguments
       run: |
-          cd frontend
+          cd backend
           docker build \
               --build-arg APPLICATION_INSIGHTS_CONNECTION_STRING="${{ secrets.APPLICATION_INSIGHTS_CONNECTION_STRING }}" \
               --build-arg AZURE_STORAGE_CONNECTION_STRING="${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}" \
