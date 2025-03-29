@@ -37,8 +37,8 @@ jobs:
       run: |
           cd backend
           docker build \
-            --build-arg APPLICATION_INSIGHTS_CONNECTION_STRING=${{ secrets.APPLICATION_INSIGHTS_CONNECTION_STRING }} \
-            --build-arg AZURE_STORAGE_CONNECTION_STRING=${{ secrets.AZURE_STORAGE_CONNECTION_STRING }} \
+            --build-arg APPLICATION_INSIGHTS_CONNECTION_STRING="InstrumentationKey=62cff588-b058-4a53-b029-8ec912b0d606;IngestionEndpoint=https://eastus2-3.in.applicationinsights.azure.com/;LiveEndpoint=https://eastus2.livediagnostics.monitor.azure.com/;ApplicationId=352bcf8a-3087-453c-a76a-1d708cf329cd" \
+            --build-arg AZURE_STORAGE_CONNECTION_STRING=DefaultEndpointsProtocol=https;AccountName=formsubmissiondata;AccountKey=hII7sqwGGwrinBr0Rs5jf74GN6nho3wgJH3kUgYYyQE1lk9DEWHBtq3XPJ5kJ2FpNcxn1G3XRsaV+AStNNWvFw==;EndpointSuffix=core.windows.net \
             -t testing2sfa.azurecr.io/backend:latest .
     - name: Push Docker image to Azure Container Registry
       run: |
