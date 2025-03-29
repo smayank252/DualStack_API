@@ -53,12 +53,6 @@ on:
         type: boolean
         default: false
 
-env:
-  ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
-  ARM_CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
-  ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
-  ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -66,13 +60,10 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v4
 
-    - name: Azure Login with Service Principal
-      run: |
-        az login --service-principal \
-          -u ${{ env.ARM_CLIENT_ID }} \
-          -p ${{ env.ARM_CLIENT_SECRET }} \
-          --tenant ${{ env.ARM_TENANT_ID }}
-        az account set --subscription ${{ env.ARM_SUBSCRIPTION_ID }}
+    - name: Login to Azure
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
 
     - name: Create Resource Group (if needed)
       run: |
