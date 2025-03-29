@@ -38,10 +38,7 @@ jobs:
     - name: Build Docker image with build arguments
       run: |
           cd frontend
-          docker build \
-              --build-arg APPLICATION_INSIGHTS_CONNECTION_STRING="${{ secrets.APPLICATION_INSIGHTS_CONNECTION_STRING }}" \
-              --build-arg AZURE_STORAGE_CONNECTION_STRING="${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}" \
-              -t ${{ env.AZURE_CONTAINER_REGISTRY }}/frontend:${{ env.DOCKER_IMAGE_Version }} .
+          docker build -t ${{ env.AZURE_CONTAINER_REGISTRY }}/frontend:${{ env.DOCKER_IMAGE_Version }} .
     - name: Push Docker image to Azure Container Registry
       run: |
         docker push ${{ env.AZURE_CONTAINER_REGISTRY }}/${{ env.DOCKER_IMAGE_NAME }}:${{ env.DOCKER_IMAGE_Version }}
