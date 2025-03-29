@@ -12,8 +12,8 @@ login_manager.init_app(app)
 login_manager.login_view = 'login'  # Redirect to login page if unauthorized
 
 # Replace this with your actual API URLs
-UPLOAD_API_URL = "http://52.177.35.175:5000/api/form"
-SUBMISSION_API_URL = "http://52.177.35.175:5000/api/form/submissions"
+UPLOAD_API_URL = "https://backend-gpa2hegrenaehzea.eastus2-01.azurewebsites.net/api/form"
+SUBMISSION_API_URL = "https://backend-gpa2hegrenaehzea.eastus2-01.azurewebsites.net/api/form/submissions"
 
 # Mock user database (replace with a real database in production)
 users = {
