@@ -6,7 +6,7 @@ on:
       - feature/env-variable
 
 env:
-  AZURE_CONTAINER_REGISTRY: azureclassesproject.azurecr.io"
+  AZURE_CONTAINER_REGISTRY: "azureclassesproject.azurecr.io"
   DOCKER_IMAGE_NAME: "backend"
   DOCKER_IMAGE_Version: "v1"
   

@@ -1,0 +1,109 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "appService1Name": {
+            "type": "string",
+            "metadata": {
+                "description": "The name of the first App Service"
+            }
+        },
+        "appService2Name": {
+            "type": "string",
+            "metadata": {
+                "description": "The name of the second App Service"
+            }
+        },
+        "location": {
+            "type": "string",
+            "metadata": {
+                "description": "Location for all resources."
+            }
+        },
+        "containerImage1": {
+            "type": "string",
+            "metadata": {
+                "description": "Container image for the first App Service (include version tag)"
+            }
+        },
+        "containerImage2": {
+            "type": "string",
+            "metadata": {
+                "description": "Container image for the second App Service (include version tag)"
+            }
+        }
+    },
+    "variables": {
+        "appServicePlanName": "linuxFreePlan",
+        "linuxFxVersion1": "[concat('DOCKER|', parameters('containerImage1'))]",
+        "linuxFxVersion2": "[concat('DOCKER|', parameters('containerImage2'))]"
+    },
+    "resources": [
+        {
+            "type": "Microsoft.Web/serverfarms",
+            "apiVersion": "2022-03-01",
+            "name": "[variables('appServicePlanName')]",
+            "location": "[parameters('location')]",
+            "sku": {
+                "name": "F1",
+                "tier": "Free",
+                "size": "F1",
+                "family": "F",
+                "capacity": 0
+            },
+            "kind": "linux",
+            "properties": {
+                "reserved": true,
+                "perSiteScaling": false,
+                "elasticScaleEnabled": false,
+                "maximumElasticWorkerCount": 1
+            }
+        },
+        {
+            "type": "Microsoft.Web/sites",
+            "apiVersion": "2022-03-01",
+            "name": "[parameters('appService1Name')]",
+            "location": "[parameters('location')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/serverfarms', variables('appServicePlanName'))]"
+            ],
+            "kind": "app,linux,container",
+            "properties": {
+                "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', variables('appServicePlanName'))]",
+                "siteConfig": {
+                    "linuxFxVersion": "[variables('linuxFxVersion1')]",
+                    "alwaysOn": false
+                },
+                "httpsOnly": true
+            }
+        },
+        {
+            "type": "Microsoft.Web/sites",
+            "apiVersion": "2022-03-01",
+            "name": "[parameters('appService2Name')]",
+            "location": "[parameters('location')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/serverfarms', variables('appServicePlanName'))]"
+            ],
+            "kind": "app,linux,container",
+            "properties": {
+                "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', variables('appServicePlanName'))]",
+                "siteConfig": {
+                    "linuxFxVersion": "[variables('linuxFxVersion2')]",
+                    "alwaysOn": false
+                },
+                "httpsOnly": true
+            }
+        }
+    ],
+    "outputs": {
+        "appService1Hostname": {
+            "type": "string",
+            "value": "[reference(parameters('appService1Name')).defaultHostName]"
+        },
+        "appService2Hostname": {
+            "type": "string",
+            "value": "[reference(parameters('appService2Name')).defaultHostName]"
+        }
+    }
+}
