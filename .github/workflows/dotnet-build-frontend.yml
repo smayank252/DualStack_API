@@ -3,7 +3,7 @@ name: Docker Build and Push to Azure Container Registry for frontend
 on:
   push:
     branches:
-      - master
+     - feature/env-variable
 
 env:
   AZURE_CONTAINER_REGISTRY: "azureclassesproject.azurecr.io"
