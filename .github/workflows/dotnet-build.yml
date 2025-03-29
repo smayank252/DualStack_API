@@ -3,7 +3,7 @@ name: Docker Build and Push to Azure Container Registry for backend
 on:
   push:
     branches:
-      - feature/env-variable
+      - master
 
 env:
   AZURE_CONTAINER_REGISTRY: "testing2sfa.azurecr.io"
