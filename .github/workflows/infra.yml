@@ -65,6 +65,14 @@ jobs:
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
 
+    - name: Print all inputs
+      run: |
+        echo "Resource Group: ${{ github.event.inputs.resourceGroup }}"
+        echo "Location: ${{ github.event.inputs.location }}"
+        echo "Storage Account: ${{ github.event.inputs.storageAccountName }}"
+        echo "Application Insights: ${{ github.event.inputs.applicationInsightsName }}"
+        echo "Container Registry: ${{ github.event.inputs.containerRegistryName }}"
+
     - name: Deploy ARM Template
       uses: azure/arm-deploy@v1
       with:
@@ -72,13 +80,13 @@ jobs:
         resourceGroupName: ${{ github.event.inputs.resourceGroup }}
         template: ./infra/infra.json
         parameters: |
-          storageAccountName=${{ github.event.inputs.storageAccountName }}
-          applicationInsightsName=${{ github.event.inputs.applicationInsightsName }}
-          containerRegistryName=${{ github.event.inputs.containerRegistryName }}
-          location=${{ github.event.inputs.location }}
-          storageSku=${{ github.event.inputs.storageSku }}
-          acrSku=${{ github.event.inputs.acrSku }}
-          acrAdminUserEnabled=${{ github.event.inputs.acrAdminUserEnabled }}
+            storageAccountName=${{ github.event.inputs.storageAccountName || 'classstorageaccoutnt' }}
+            applicationInsightsName=${{ github.event.inputs.applicationInsightsName || 'defaultappinsights' }}
+            containerRegistryName=${{ github.event.inputs.containerRegistryName || 'defaultacr' }}
+            location=${{ github.event.inputs.location || 'eastus' }}
+            storageSku=${{ github.event.inputs.storageSku || 'Standard_LRS' }}
+            acrSku=${{ github.event.inputs.acrSku || 'Basic' }}
+            acrAdminUserEnabled=${{ github.event.inputs.acrAdminUserEnabled || 'false' }}
         failOnStdErr: false
 
     - name: Output deployment details
