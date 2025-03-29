@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Submissions</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        h2 {
+            text-align: center;
+        }
+        .submission-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        .submission-item {
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+            cursor: pointer;
+        }
+        .submission-item h3 {
+            margin: 0;
+        }
+        .submission-details {
+            display: none;
+            margin-top: 10px;
+        }
+        .submission-details img {
+            max-width: 100%;
+            height: auto;
+        }
+        a {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            color: #4CAF50;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h2>All Submissions</h2>
+    <ul class="submission-list">
+        {% for submission in submissions %}
+        <li class="submission-item" onclick="toggleDetails(this)">
+            <h3>{{ submission.name }}</h3>
+            <div class="submission-details">
+                <p><strong>Email:</strong> {{ submission.email }}</p>
+                <p><strong>Address:</strong> {{ submission.address }}</p>
+                <img src="{{ submission.photoUrl }}" alt="Uploaded Photo">
+            </div>
+        </li>
+        {% endfor %}
+    </ul>
+
+    <a href="/logout">Logout</a>
+
+    <script>
+        function toggleDetails(item) {
+            const details = item.querySelector('.submission-details');
+            details.style.display = details.style.display === 'block' ? 'none' : 'block';
+        }
+    </script>
+</body>
+</html>

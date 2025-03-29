@@ -1,0 +1,108 @@
+name: Deploy Azure Infrastructure
+
+on:
+  workflow_dispatch:
+    inputs:
+      resourceGroup:
+        description: 'Azure Resource Group Name'
+        required: true
+        type: string
+      location:
+        description: 'Azure Region (e.g., eastus)'
+        required: true
+        type: string
+        default: eastus
+      storageAccountName:
+        description: 'Storage Account Name (3-24 chars, lowercase)'
+        required: true
+        type: string
+      applicationInsightsName:
+        description: 'Application Insights Name'
+        required: true
+        type: string
+      containerRegistryName:
+        description: 'Container Registry Name (5-50 chars)'
+        required: true
+        type: string
+      storageSku:
+        description: 'Storage Account SKU'
+        required: false
+        type: choice
+        options:
+        - Standard_LRS
+        - Standard_GRS
+        - Standard_RAGRS
+        - Standard_ZRS
+        - Premium_LRS
+        - Premium_ZRS
+        - Standard_GZRS
+        - Standard_RAGZRS
+        default: Standard_LRS
+      acrSku:
+        description: 'ACR SKU'
+        required: false
+        type: choice
+        options:
+        - Basic
+        - Standard
+        - Premium
+        default: Basic
+      acrAdminUserEnabled:
+        description: 'Enable ACR Admin User?'
+        required: false
+        type: boolean
+        default: false
+
+env:
+  ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+  ARM_CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
+  ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+  ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Azure Login with Service Principal
+      run: |
+        az login --service-principal \
+          -u ${{ env.ARM_CLIENT_ID }} \
+          -p ${{ env.ARM_CLIENT_SECRET }} \
+          --tenant ${{ env.ARM_TENANT_ID }}
+        az account set --subscription ${{ env.ARM_SUBSCRIPTION_ID }}
+
+    - name: Create Resource Group (if needed)
+      run: |
+        az group create \
+          --name ${{ github.event.inputs.resourceGroup }} \
+          --location ${{ github.event.inputs.location }} \
+          --output none
+
+    - name: Deploy ARM Template
+      uses: azure/arm-deploy@v1
+      with:
+        subscriptionId: ${{ env.ARM_SUBSCRIPTION_ID }}
+        resourceGroupName: ${{ github.event.inputs.resourceGroup }}
+        template: ../../infra/infra.json
+        parameters: |
+          storageAccountName=${{ github.event.inputs.storageAccountName }}
+          applicationInsightsName=${{ github.event.inputs.applicationInsightsName }}
+          containerRegistryName=${{ github.event.inputs.containerRegistryName }}
+          location=${{ github.event.inputs.location }}
+          storageSku=${{ github.event.inputs.storageSku }}
+          acrSku=${{ github.event.inputs.acrSku }}
+          acrAdminUserEnabled=${{ github.event.inputs.acrAdminUserEnabled }}
+        failOnStdErr: false
+
+    - name: Output deployment details
+      run: |
+        echo "Azure Resources Deployed Successfully!"
+        echo "------------------------------------"
+        echo "Resource Group: ${{ github.event.inputs.resourceGroup }}"
+        echo "Location: ${{ github.event.inputs.location }}"
+        echo "Storage Account: ${{ github.event.inputs.storageAccountName }}"
+        echo "Application Insights: ${{ github.event.inputs.applicationInsightsName }}"
+        echo "Container Registry: ${{ github.event.inputs.containerRegistryName }}"
