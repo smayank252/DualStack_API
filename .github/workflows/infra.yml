@@ -70,7 +70,7 @@ jobs:
       with:
         subscriptionId: ${{ env.ARM_SUBSCRIPTION_ID }}
         resourceGroupName: ${{ github.event.inputs.resourceGroup }}
-        template: ../infra/infra.json
+        template: ./infra/infra.json
         parameters: |
           storageAccountName=${{ github.event.inputs.storageAccountName }}
           applicationInsightsName=${{ github.event.inputs.applicationInsightsName }}
