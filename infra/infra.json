@@ -29,7 +29,6 @@
     },
     "storageSku": {
       "type": "string",
-      "defaultValue": "Standard_LRS",
       "allowedValues": [
         "Standard_LRS",
         "Standard_GRS",
@@ -46,7 +45,6 @@
     },
     "acrSku": {
       "type": "string",
-      "defaultValue": "Basic",
       "allowedValues": [
         "Basic",
         "Standard",
@@ -58,7 +56,6 @@
     },
     "acrAdminUserEnabled": {
       "type": "bool",
-      "defaultValue": false,
       "metadata": {
         "description": "Enable admin user for ACR"
       }
