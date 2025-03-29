@@ -1,4 +1,4 @@
-name: Docker Build and Push to Azure Container Registry for backend
+name: Docker Build and Push to Azure Container Registry for frontend
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
 
 env:
   AZURE_CONTAINER_REGISTRY: "testing2sfa.azurecr.io"
-  DOCKER_IMAGE_NAME: "backend"
+  DOCKER_IMAGE_NAME: "frontend"
   DOCKER_IMAGE_Version: "v1"
   
 
@@ -37,11 +37,11 @@ jobs:
 
     - name: Build Docker image with build arguments
       run: |
-          cd frontend
+          cd backend
           docker build \
               --build-arg APPLICATION_INSIGHTS_CONNECTION_STRING="${{ secrets.APPLICATION_INSIGHTS_CONNECTION_STRING }}" \
               --build-arg AZURE_STORAGE_CONNECTION_STRING="${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}" \
-              -t ${{ env.AZURE_CONTAINER_REGISTRY }}/backend:${{ env.DOCKER_IMAGE_Version }} .
+              -t ${{ env.AZURE_CONTAINER_REGISTRY }}/frontend:${{ env.DOCKER_IMAGE_Version }} .
     - name: Push Docker image to Azure Container Registry
       run: |
         docker push ${{ env.AZURE_CONTAINER_REGISTRY }}/${{ env.DOCKER_IMAGE_NAME }}:${{ env.DOCKER_IMAGE_Version }}

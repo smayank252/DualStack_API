@@ -4039,11 +4039,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Smaya\\OneDrive\\Desktop\\project\\Project\\backend\\backend.csproj",
+      "projectUniqueName": "C:\\Users\\Smaya\\OneDrive\\Desktop\\project\\DualStack_API\\backend\\backend.csproj",
       "projectName": "backend",
-      "projectPath": "C:\\Users\\Smaya\\OneDrive\\Desktop\\project\\Project\\backend\\backend.csproj",
+      "projectPath": "C:\\Users\\Smaya\\OneDrive\\Desktop\\project\\DualStack_API\\backend\\backend.csproj",
       "packagesPath": "C:\\Users\\Smaya\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Smaya\\OneDrive\\Desktop\\project\\Project\\backend\\obj\\",
+      "outputPath": "C:\\Users\\Smaya\\OneDrive\\Desktop\\project\\DualStack_API\\backend\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Smaya\\AppData\\Roaming\\NuGet\\NuGet.Config"
