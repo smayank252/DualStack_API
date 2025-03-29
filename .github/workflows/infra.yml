@@ -65,19 +65,12 @@ jobs:
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-    # - name: Create Resource Group (if needed)
-    #   run: |
-    #     az group create \
-    #       --name ${{ github.event.inputs.resourceGroup }} \
-    #       --location ${{ github.event.inputs.location }} \
-    #       --output none
-
     - name: Deploy ARM Template
       uses: azure/arm-deploy@v1
       with:
         subscriptionId: ${{ env.ARM_SUBSCRIPTION_ID }}
         resourceGroupName: ${{ github.event.inputs.resourceGroup }}
-        template: ../../infra/infra.json
+        template: ../infra/infra.json
         parameters: |
           storageAccountName=${{ github.event.inputs.storageAccountName }}
           applicationInsightsName=${{ github.event.inputs.applicationInsightsName }}
