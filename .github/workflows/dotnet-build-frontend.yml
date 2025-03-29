@@ -6,7 +6,7 @@ on:
       - master
 
 env:
-  AZURE_CONTAINER_REGISTRY: "testing2sfa.azurecr.io"
+  AZURE_CONTAINER_REGISTRY: "azureclassesproject.azurecr.io"
   DOCKER_IMAGE_NAME: "frontend"
   DOCKER_IMAGE_Version: "v1"
   
