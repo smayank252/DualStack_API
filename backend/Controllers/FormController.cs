@@ -42,10 +42,10 @@ namespace FormApp.Controllers
                 {
                     var containerClient = _blobServiceClient.GetBlobContainerClient(_containerName);
                     await containerClient.CreateIfNotExistsAsync();
-                    
+
                     // Generate a unique blob name and upload the photo
                     var blobClient = containerClient.GetBlobClient(Guid.NewGuid().ToString() + Path.GetExtension(model.Photo.FileName));
-                    
+
                     using (var stream = model.Photo.OpenReadStream())
                     {
                         await blobClient.UploadAsync(stream);
@@ -70,7 +70,7 @@ namespace FormApp.Controllers
                     { "Address", model.Address },
                     { "PhotoUrl", blobUrl }
                 };
-                
+
                 await tableClient.AddEntityAsync(entity);
                 _telemetryClient.TrackTrace("Form data stored in Table Storage");
             }
