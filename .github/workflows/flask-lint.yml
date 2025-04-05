@@ -1,46 +1,46 @@
----
-name: Flask-lint
-on:
-  workflow_run:
-    workflows: ["dotnet-lint"]
-    types:
-      - completed
+# ---
+# name: Flask-lint
 # on:
-#   push:
-#     # paths:
-#     #   - 'backend/'
-#   # pull_request:
-#   #   paths:
-#   #     - 'backend/'
-#   # workflow_dispatch:
-jobs:
-  lint:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+#   workflow_run:
+#     workflows: ["dotnet-lint"]
+#     types:
+#       - completed
+# # on:
+# #   push:
+# #     # paths:
+# #     #   - 'backend/'
+# #   # pull_request:
+# #   #   paths:
+# #   #     - 'backend/'
+# #   # workflow_dispatch:
+# jobs:
+#   lint:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Checkout code
+#         uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: "3.9"
+#       - name: Set up Python
+#         uses: actions/setup-python@v4
+#         with:
+#           python-version: "3.9"
 
-      - name: Install dotnet-format tool
-        run: |
-            cd frontend
-            python -m pip install --upgrade pip
-            pip install flake8 mypy flask
-            python -m pip install types-requests
-            mypy --install-types
+#       - name: Install dotnet-format tool
+#         run: |
+#             cd frontend
+#             python -m pip install --upgrade pip
+#             pip install flake8 mypy flask
+#             python -m pip install types-requests
+#             mypy --install-types
 
-      - name: Run flake8
-        run: |
-            # Run flake8 with basic configuration
-            cd frontend
-            flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
-            flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+#       - name: Run flake8
+#         run: |
+#             # Run flake8 with basic configuration
+#             cd frontend
+#             flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+#             flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
 
-      - name: Run mypy
-        run: |
-            cd frontend
-            mypy --ignore-missing-imports --disallow-untyped-defs --no-implicit-optional .
+#       - name: Run mypy
+#         run: |
+#             cd frontend
+#             mypy --ignore-missing-imports --disallow-untyped-defs --no-implicit-optional .

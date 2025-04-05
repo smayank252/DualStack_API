@@ -1,4 +1,4 @@
-name: Combined Linting
+name: Code-linting
 on:
   push:
     # paths:
