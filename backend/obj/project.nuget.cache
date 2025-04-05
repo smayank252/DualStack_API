@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "9BiRcNZxR7y/6io8GLd+5mTta64shWmNTwVjOEo469ivEC9qE98TE8a06hc1Wdbjcb2Lam9pUn0n0L8aYBIgrg==",
+  "dgSpecHash": "4u5klHVCwYZuRmyKG0i4qp54aPPKxXcEPLWeLFImuBfUoSgwVqDnlkl6nb20GBPnySvZDmdbJZxbFKY41iakKw==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Smaya\\OneDrive\\Desktop\\project\\Project\\backend\\backend.csproj",
+  "projectFilePath": "C:\\Users\\Smaya\\OneDrive\\Desktop\\project\\DualStack_API\\backend\\backend.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Smaya\\.nuget\\packages\\azure.core\\1.44.1\\azure.core.1.44.1.nupkg.sha512",
     "C:\\Users\\Smaya\\.nuget\\packages\\azure.data.tables\\12.10.0\\azure.data.tables.12.10.0.nupkg.sha512",

@@ -10,19 +10,25 @@ var builder = WebApplication.CreateBuilder(args);
 // Load Configuration
 var config = builder.Configuration;
 
-// Get Azure Storage Connection String
-var storageConnectionString = config["AzureStorage:ConnectionString"];
+// Get Azure Storage Connection String from Environment Variable
+var storageConnectionString = Environment.GetEnvironmentVariable("AZURE_STORAGE_CONNECTION_STRING");
 if (string.IsNullOrEmpty(storageConnectionString))
 {
-    throw new InvalidOperationException("Azure Storage connection string is missing. Check appsettings.json.");
+    throw new InvalidOperationException("Azure Storage connection string is missing. Set the AZURE_STORAGE_CONNECTION_STRING environment variable.");
+}
+
+// Get Application Insights Connection String from Environment Variable
+var appInsightsConnectionString = Environment.GetEnvironmentVariable("APPLICATION_INSIGHTS_CONNECTION_STRING");
+if (string.IsNullOrEmpty(appInsightsConnectionString))
+{
+    throw new InvalidOperationException("Application Insights connection string is missing. Set the APPLICATION_INSIGHTS_CONNECTION_STRING environment variable.");
 }
 
 // Register Azure Storage Clients
 builder.Services.AddSingleton(new BlobServiceClient(storageConnectionString));
 builder.Services.AddSingleton(new TableServiceClient(storageConnectionString));
 
-// ** Add Application Insights **
-var appInsightsConnectionString = config["ApplicationInsights:ConnectionString"];
+// Register Application Insights
 builder.Services.AddApplicationInsightsTelemetry(options =>
 {
     options.ConnectionString = appInsightsConnectionString;
