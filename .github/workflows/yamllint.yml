@@ -1,0 +1,36 @@
+name: YAML lint workflow
+
+on:
+  push:
+    paths:
+      - '.github/workflows/**'
+  pull_request:
+    paths:
+      - '.github/workflows/**'
+  workflow_dispatch:
+
+jobs:
+  lint-workflows:
+    name: Lint YAML Workflows
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Create custom yamllint config
+        run: |
+          cat << 'EOF' > .yamllint.yml
+          extends: default
+          rules:
+            line-length:
+              max: 120
+              allow-non-breakable-inline-mappings: true
+          EOF
+
+      - name: Lint YAML workflow files
+        uses: actionshub/yamllint@main
+        with:
+          file_or_dir: .github/workflows
+          strict: true
+          config_file: .yamllint.yml
