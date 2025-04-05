@@ -1,0 +1,38 @@
+---
+name: Lint Flask App
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+        
+    - name: Install dependencies
+      run: |
+        cd frontend
+        python -m pip install --upgrade pip
+        pip install flake8 mypy flask
+        python -m pip install types-requests
+        mypy --install-types
+        
+    - name: Run flake8
+      run: |
+        # Run flake8 with basic configuration
+        cd frontend
+        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+        flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+        
+    - name: Run mypy
+      run: |
+        cd frontend
+        mypy --ignore-missing-imports --disallow-untyped-defs --no-implicit-optional .
