@@ -1,13 +1,18 @@
 ---
 name: Flask-lint
 on:
-  push:
-    # paths:
-    #   - 'backend/'
-  # pull_request:
-  #   paths:
-  #     - 'backend/'
-  # workflow_dispatch:
+  workflow_run:
+    workflows: ["dotnet-lint"]
+    types:
+      - completed
+# on:
+#   push:
+#     # paths:
+#     #   - 'backend/'
+#   # pull_request:
+#   #   paths:
+#   #     - 'backend/'
+#   # workflow_dispatch:
 jobs:
   lint:
     runs-on: ubuntu-latest
