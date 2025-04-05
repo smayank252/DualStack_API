@@ -2,9 +2,9 @@
 name: Docker Build and Push to Azure Container Registry for backend
 
 on:
-  workflow_run:
-    workflows: ["YAML lint"]
-    types: [completed]
+  push:
+    branches:
+      - master
 
 env:
   AZURE_CONTAINER_REGISTRY: "testing2sfa.azurecr.io"
